@@ -1,0 +1,16 @@
+const PRODUCTS = [
+  {id:'classic',name:'Classic Personalised Coffee Cup',category:'Normal Coffee Cups',price:12,description:'A simple everyday cup personalised with a name or short phrase.',details:['Handmade personalised design','Ideal for everyday coffee','Name or short wording'],image:'https://images.pexels.com/photos/3735210/pexels-photo-3735210.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3735210.jpg&fm=jpg'},
+  {id:'sage',name:'Sage Green Personalised Cup',category:'Coloured Coffee Cups',price:14,description:'A soft sage-style cup with a personalised name or design.',details:['Colour: sage-style green','Personalised name/design','Lovely gift option'],image:'https://images.pexels.com/photos/5719933/pexels-photo-5719933.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-5719933.jpg&fm=jpg'},
+  {id:'blush',name:'Blush Pink Personalised Cup',category:'Coloured Coffee Cups',price:14,description:'A pretty, feminine option for names, initials and cute designs.',details:['Colour: blush-style pink','Personalised name/design','Handmade finish'],image:'https://images.pexels.com/photos/3735210/pexels-photo-3735210.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3735210.jpg&fm=jpg'},
+  {id:'takeaway',name:'Personalised Takeaway Cup',category:'Personalised Takeaway Cups',price:16,description:'A reusable takeaway-style cup personalised to your taste.',details:['Takeaway-style design','Personalised name/design','Great for gifts'],image:'https://images.pexels.com/photos/5719933/pexels-photo-5719933.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-5719933.jpg&fm=jpg'},
+  {id:'initial',name:'Initial & Name Cup',category:'Personalised Cups',price:15,description:'A personalised cup featuring an initial with a name or short wording.',details:['Initial + name option','Custom colour available','Gift-friendly'],image:'https://images.pexels.com/photos/3735210/pexels-photo-3735210.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3735210.jpg&fm=jpg'},
+  {id:'custom',name:'Custom Design Cup',category:'Custom Designs',price:18,description:'A starting price for a more detailed custom cup design.',details:['Discuss your design','Colour and wording options','Price confirmed before making'],image:'https://images.pexels.com/photos/5719933/pexels-photo-5719933.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-5719933.jpg&fm=jpg'}
+];
+
+function money(n){return new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(n)}
+function getBasket(){try{return JSON.parse(localStorage.getItem('acaciasBasket')||'[]')}catch{return[]}}
+function saveBasket(b){localStorage.setItem('acaciasBasket',JSON.stringify(b));updateBasketCount()}
+function addToBasket(id,qty=1,personalisation=''){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;const b=getBasket();const key=id+'|'+personalisation.trim();const existing=b.find(x=>x.key===key);if(existing)existing.qty+=qty;else b.push({key,id,qty,personalisation:personalisation.trim()});saveBasket(b);}
+function removeFromBasket(key){saveBasket(getBasket().filter(x=>x.key!==key));renderBasket()}
+function changeQty(key,delta){const b=getBasket();const x=b.find(i=>i.key===key);if(!x)return;x.qty+=delta;if(x.qty<1)return removeFromBasket(key);saveBasket(b);renderBasket()}
+function updateBasketCount(){const n=getBasket().reduce((s,x)=>s+x.qty,0);document.querySelectorAll('#basketCount').forEach(el=>el.textContent=n)}
