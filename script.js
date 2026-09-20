@@ -27,7 +27,6 @@ function productCard(p) {
   `;
 }
 
-
 function renderShop() {
   const grid = document.getElementById('productGrid');
 
@@ -35,7 +34,6 @@ function renderShop() {
     grid.innerHTML = PRODUCTS.map(productCard).join('');
   }
 }
-
 
 function renderProduct() {
   const el = document.getElementById('productDetail');
@@ -95,7 +93,6 @@ function renderProduct() {
   `;
 
   document.getElementById('addProduct').onclick = () => {
-
     const qty = Math.max(
       1,
       Number(document.getElementById('qty').value) || 1
@@ -114,9 +111,7 @@ function renderProduct() {
   };
 }
 
-
 function renderBasket() {
-
   const box = document.getElementById('basketItems');
   const summary = document.getElementById('basketSummary');
 
@@ -125,20 +120,15 @@ function renderBasket() {
   const b = getBasket();
 
   if (!b.length) {
-
     box.innerHTML = `
       <div class="empty">
-
         <h2>Your basket is empty</h2>
-
         <p>
           Have a look through the cups and choose your favourites.
         </p>
-
         <a class="button primary" href="index.html#shop">
           Shop cups
         </a>
-
       </div>
     `;
 
@@ -150,7 +140,6 @@ function renderBasket() {
   let total = 0;
 
   box.innerHTML = b.map(item => {
-
     const p = PRODUCTS.find(x => x.id === item.id);
 
     if (!p) return '';
@@ -165,7 +154,6 @@ function renderBasket() {
         <img src="${p.image}" alt="${p.name}">
 
         <div>
-
           <h3>${p.name}</h3>
 
           <p>
@@ -177,7 +165,6 @@ function renderBasket() {
           </p>
 
           <strong>${money(line)}</strong>
-
         </div>
 
         <div class="qty">
@@ -203,11 +190,9 @@ function renderBasket() {
 
       </div>
     `;
-
   }).join('');
 
   if (summary) {
-
     summary.innerHTML = `
       <div class="summary">
 
@@ -230,81 +215,53 @@ function renderBasket() {
   }
 }
 
-
-
-
-
 function setupMobileMenu() {
-
-  const menuButton =
-    document.querySelector('.menu');
-
-  const nav =
-    document.querySelector('.site-header nav');
+  const menuButton = document.querySelector('.menu');
+  const nav = document.querySelector('.site-header nav');
 
   if (!menuButton || !nav) return;
 
-  menuButton.setAttribute(
-    'aria-expanded',
-    'false'
-  );
+  menuButton.setAttribute('aria-expanded', 'false');
 
   menuButton.addEventListener('click', () => {
-
     nav.classList.toggle('open');
 
-    const open =
-      nav.classList.contains('open');
+    const open = nav.classList.contains('open');
 
     menuButton.setAttribute(
       'aria-expanded',
       open ? 'true' : 'false'
     );
-
   });
-
 }
 
-
 function updateBasketCount() {
-
-  const basketCount =
-    document.getElementById('basketCount');
+  const basketCount = document.getElementById('basketCount');
 
   if (!basketCount) return;
 
-  const basket =
-    getBasket();
+  const basket = getBasket();
 
-  const total =
-    basket.reduce(
-      (sum, item) => sum + Number(item.qty || 0),
-      0
-    );
+  const total = basket.reduce(
+    (sum, item) => sum + Number(item.qty || 0),
+    0
+  );
 
   basketCount.textContent = total;
 }
 
-
 document.addEventListener('DOMContentLoaded', () => {
 
   renderShop();
-
   renderProduct();
-
   renderBasket();
-
   updateBasketCount();
-
   setupMobileMenu();
 
-  const year =
-    document.getElementById('year');
+  const year = document.getElementById('year');
 
   if (year) {
-    year.textContent =
-      new Date().getFullYear();
+    year.textContent = new Date().getFullYear();
   }
 
-});
 });
