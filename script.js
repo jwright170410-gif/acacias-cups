@@ -27,6 +27,7 @@ function productCard(p) {
   `;
 }
 
+
 function renderShop() {
   const grid = document.getElementById('productGrid');
 
@@ -34,6 +35,7 @@ function renderShop() {
     grid.innerHTML = PRODUCTS.map(productCard).join('');
   }
 }
+
 
 function renderProduct() {
   const el = document.getElementById('productDetail');
@@ -110,6 +112,7 @@ function renderProduct() {
     updateBasketCount();
   };
 }
+
 
 function renderBasket() {
   const box = document.getElementById('basketItems');
@@ -206,86 +209,15 @@ function renderBasket() {
           with Acacia's Cups before payment.
         </p>
 
-     <a class="button primary" href="index.html#custom">
-       Continue to enquiry
-    </a>
+        <a class="button primary" href="index.html#custom">
+          Continue to enquiry
+        </a>
 
       </div>
     `;
   }
 }
 
-function setupMobileMenu() {
-  const menuButton = document.querySelector('.menu');
-  const nav = document.querySelector('.site-header nav');
-
-  if (!menuButton || !nav) return;
-
-  menuButton.setAttribute('aria-expanded', 'false');
-
-  menuButton.addEventListener('click', () => {
-    nav.classList.toggle('open');
-
-    const open = nav.classList.contains('open');
-
-    menuButton.setAttribute(
-      'aria-expanded',
-      open ? 'true' : 'false'
-    );
-  });
-}
-
-function updateBasketCount() {
-  const basketCount = document.getElementById('basketCount');
-
-  if (!basketCount) return;
-
-  const basket = getBasket();
-
-  const total = basket.reduce(
-    (sum, item) => sum + Number(item.qty || 0),
-    0
-  );
-
-  basketCount.textContent = total;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-
-  renderShop();
-  renderProduct();
-  renderBasket();
-  updateBasketCount();
-  setupMobileMenu();
-
-  const basketDetails = document.getElementById('basketDetails');
-
-  if (basketDetails) {
-    const basket = getBasket();
-
-    if (basket.length) {
-      basketDetails.value = basket.map(item => {
-        const product = PRODUCTS.find(x => x.id === item.id);
-
-        if (!product) return '';
-
-        return `${product.name}
-Quantity: ${item.qty}
-Personalisation: ${item.personalisation || 'None'}
-Price: ${money(product.price * item.qty)}`;
-      }).filter(Boolean).join('\n\n');
-    } else {
-      basketDetails.value = 'No items added to basket.';
-    }
-  }
-
-  const year = document.getElementById('year');
-
-  if (year) {
-    year.textContent = new Date().getFullYear();
-  }
-
-});
 
 function fillBasketDetails() {
   const basketDetails = document.getElementById('basketDetails');
@@ -311,6 +243,59 @@ Price: ${money(product.price * item.qty)}`;
   }).filter(Boolean).join('\n\n');
 }
 
-document.querySelector('a[href="index.html#custom"]')?.addEventListener('click', () => {
-  setTimeout(fillBasketDetails, 500);
+
+function setupMobileMenu() {
+  const menuButton = document.querySelector('.menu');
+  const nav = document.querySelector('.site-header nav');
+
+  if (!menuButton || !nav) return;
+
+  menuButton.setAttribute('aria-expanded', 'false');
+
+  menuButton.addEventListener('click', () => {
+    nav.classList.toggle('open');
+
+    const open = nav.classList.contains('open');
+
+    menuButton.setAttribute(
+      'aria-expanded',
+      open ? 'true' : 'false'
+    );
+  });
+}
+
+
+function updateBasketCount() {
+  const basketCount = document.getElementById('basketCount');
+
+  if (!basketCount) return;
+
+  const basket = getBasket();
+
+  const total = basket.reduce(
+    (sum, item) => sum + Number(item.qty || 0),
+    0
+  );
+
+  basketCount.textContent = total;
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  renderShop();
+  renderProduct();
+  renderBasket();
+  updateBasketCount();
+  setupMobileMenu();
+
+  // Fill the enquiry form with the current basket
+  fillBasketDetails();
+
+  const year = document.getElementById('year');
+
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
 });
