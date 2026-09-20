@@ -286,3 +286,31 @@ Price: ${money(product.price * item.qty)}`;
   }
 
 });
+
+function fillBasketDetails() {
+  const basketDetails = document.getElementById('basketDetails');
+
+  if (!basketDetails) return;
+
+  const basket = getBasket();
+
+  if (!basket.length) {
+    basketDetails.value = 'No items added to basket.';
+    return;
+  }
+
+  basketDetails.value = basket.map(item => {
+    const product = PRODUCTS.find(x => x.id === item.id);
+
+    if (!product) return '';
+
+    return `${product.name}
+Quantity: ${item.qty}
+Personalisation: ${item.personalisation || 'None'}
+Price: ${money(product.price * item.qty)}`;
+  }).filter(Boolean).join('\n\n');
+}
+
+document.querySelector('a[href="index.html#custom"]')?.addEventListener('click', () => {
+  setTimeout(fillBasketDetails, 500);
+});
