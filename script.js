@@ -231,31 +231,7 @@ function renderBasket() {
 }
 
 
-function setupCustomForm() {
 
-  const form = document.getElementById('customForm');
-
-  if (!form) return;
-
-  form.addEventListener('submit', event => {
-
-    event.preventDefault();
-
-    const name =
-      new FormData(form).get('name') || 'there';
-
-    const message =
-      document.getElementById('formMessage');
-
-    if (message) {
-
-      message.textContent =
-        `Thanks, ${name}! Your enquiry has been prepared. No payment has been taken.`;
-
-    }
-
-  });
-}
 
 
 function setupMobileMenu() {
@@ -322,8 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setupMobileMenu();
 
-  setupCustomForm();
-
   const year =
     document.getElementById('year');
 
@@ -333,7 +307,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
-
-
-
-
+});
