@@ -206,9 +206,9 @@ function renderBasket() {
           with Acacia's Cups before payment.
         </p>
 
-        <a class="button primary" href="index.html#custom">
-          Continue to enquiry
-        </a>
+     <a class="button primary" href="index.html#custom">
+       Continue to enquiry
+    </a>
 
       </div>
     `;
