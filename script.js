@@ -258,6 +258,27 @@ document.addEventListener('DOMContentLoaded', () => {
   updateBasketCount();
   setupMobileMenu();
 
+  const basketDetails = document.getElementById('basketDetails');
+
+  if (basketDetails) {
+    const basket = getBasket();
+
+    if (basket.length) {
+      basketDetails.value = basket.map(item => {
+        const product = PRODUCTS.find(x => x.id === item.id);
+
+        if (!product) return '';
+
+        return `${product.name}
+Quantity: ${item.qty}
+Personalisation: ${item.personalisation || 'None'}
+Price: ${money(product.price * item.qty)}`;
+      }).filter(Boolean).join('\n\n');
+    } else {
+      basketDetails.value = 'No items added to basket.';
+    }
+  }
+
   const year = document.getElementById('year');
 
   if (year) {
